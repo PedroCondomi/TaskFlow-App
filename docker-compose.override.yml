@@ -1,0 +1,35 @@
+services:
+  server:
+    command: npm run dev
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "8080:8080"
+    develop:
+      watch:
+        - path: ./server
+          action: sync
+          target: /app
+          ignore:
+            - node_modules/
+
+  client:
+    command: npm run dev
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:8080
+    ports:
+      - "3000:3000"
+    develop:
+      watch:
+        - path: ./client
+          action: sync
+          target: /app
+          ignore:
+            - node_modules/

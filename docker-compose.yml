@@ -1,0 +1,58 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: taskflow-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: taskflow
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - taskflow-network
+
+  server:
+    build: ./server
+    container_name: taskflow-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./server/.env
+    environment:
+      - MONGO_URI=mongodb://root:example@mongo:27017/taskflow?authSource=admin
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+    networks:
+      - taskflow-network
+
+  client:
+    build: ./client
+    container_name: taskflow-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./client/.env
+    environment:
+      - VITE_API_URL=http://localhost:8080
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+    networks:
+      - taskflow-network
+
+volumes:
+  mongo-data:
+
+networks:
+  taskflow-network:
+    driver: bridge

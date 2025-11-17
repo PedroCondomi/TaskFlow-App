@@ -1,0 +1,8 @@
+todo.txt
+proyectoverview.txt
+TreeNoNodeModules.ps1
+todoback.txt
+client/node_modules
+server/node_modules
+client/.env
+server/.env

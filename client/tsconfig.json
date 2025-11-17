@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": ["src", "env.d.ts"]
+}
