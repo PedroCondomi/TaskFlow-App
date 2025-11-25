@@ -13,7 +13,10 @@ const getAllUsers = async (_req: Request, res: Response) => {
 
 const getUserById = async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({
+      _id: req.params.id,
+      active: true,
+    }).select("-active -__v");
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(201).json(user);
   } catch (err) {
@@ -23,9 +26,13 @@ const getUserById = async (req: Request, res: Response) => {
 
 const updateUser = async (req: Request, res: Response) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id, active: true },
+      req.body,
+      {
+        new: true,
+      }
+    );
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).json(user);
   } catch (err) {
@@ -35,8 +42,13 @@ const updateUser = async (req: Request, res: Response) => {
 
 const deleteUser = async (req: Request, res: Response) => {
   try {
-    const deleted = await User.findByIdAndDelete(req.params.id);
+    const deleted = await User.findOneAndUpdate(
+      { _id: req.params.id, active: true },
+      { active: false },
+      { new: true }
+    );
     if (!deleted) return res.status(404).json({ message: "User not found" });
+
     res.status(200).json({ message: `User "${deleted.name}" deleted` });
   } catch (err) {
     res.status(500).json({ message: `Error deleting user: ${err}` });

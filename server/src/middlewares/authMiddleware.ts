@@ -2,15 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-interface AuthRequest extends Request {
-  user?: any;
-}
-
-const verifyToken = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
+const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let token;
 
@@ -28,11 +20,35 @@ const verifyToken = async (
       id: string;
     };
 
-    req.user = await User.findById(decoded.id).select("-password");
+    const user = await User.findById(decoded.id).select("-password");
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    req.user = {
+      _id: user._id,
+      role: user.role,
+      email: user.email,
+      name: user.name,
+    };
+
     next();
   } catch (err) {
     res.status(401).json({ message: "Token failed or invalid" });
   }
 };
 
-export { AuthRequest, verifyToken };
+const requireRole = (role: "admin" | "user") => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.status(401).json({ message: "User not autenticated" });
+    }
+
+    if (req.user.role !== role) {
+      return res.status(403).json({ message: `Requires role: ${role}` });
+    }
+    next();
+  };
+};
+
+export { verifyToken, requireRole };

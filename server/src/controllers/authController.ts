@@ -3,7 +3,7 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/generateToken.js";
 
-export const registerUser = async (req: Request, res: Response) => {
+const registerUser = async (req: Request, res: Response) => {
   try {
     const { name, email, password, role = "user" } = req.body;
 
@@ -36,7 +36,7 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-export const loginUser = async (req: Request, res: Response) => {
+const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
@@ -58,3 +58,5 @@ export const loginUser = async (req: Request, res: Response) => {
     res.status(500).json({ message: `Error logging in: ${err}` });
   }
 };
+
+export { loginUser, registerUser };

@@ -6,6 +6,7 @@ export interface ITeam {
   description?: string;
   members: mongoose.Types.ObjectId[];
   admins: mongoose.Types.ObjectId[];
+  active: boolean;
 }
 
 const teamSchema = new Schema<ITeam>(
@@ -14,6 +15,7 @@ const teamSchema = new Schema<ITeam>(
     description: { type: String },
     members: [{ type: Schema.Types.ObjectId, ref: "User", required: true }],
     admins: [{ type: Schema.Types.ObjectId, ref: "User", required: true }],
+    active: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

@@ -6,14 +6,14 @@ import {
   deleteUser,
   getMyProfile,
 } from "../controllers/userController.js";
-import { verifyToken } from "../middlewares/authMiddleware.js";
+import { verifyToken, requireRole } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
 router.get("/", verifyToken, getAllUsers);
 router.get("/me", verifyToken, getMyProfile);
 router.get("/:id", verifyToken, getUserById);
-router.put("/:id", verifyToken, updateUser);
-router.delete("/:id", verifyToken, deleteUser);
+router.put("/:id", [verifyToken, requireRole("admin")], updateUser);
+router.delete("/:id", [verifyToken, requireRole("admin")], deleteUser);
 
 export default router;

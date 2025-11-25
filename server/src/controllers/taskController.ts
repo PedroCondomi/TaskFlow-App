@@ -3,10 +3,39 @@ import Task from "../models/Task.js";
 
 const createTask = async (req: Request, res: Response) => {
   try {
-    const task = await Task.create(req.body);
+    const { title, description, status, priority, dueDate, assignedTo, team } =
+      req.body;
+
+    const task = await Task.create({
+      title,
+      description,
+      status: status || "pending",
+      priority: priority || "low",
+      dueDate,
+      assignedTo,
+      team,
+      createdBy: req.user._id,
+    });
+
     res.status(201).json(task);
   } catch (err) {
     res.status(500).json({ message: `Error creating task: ${err}` });
+  }
+};
+
+const assignTask = async (req: Request, res: Response) => {
+  try {
+    const { assignedTo } = req.body;
+
+    const task = await Task.findByIdAndUpdate(
+      req.params.id,
+      { assignedTo },
+      { new: true }
+    );
+
+    res.status(200).json(task);
+  } catch (err) {
+    res.status(500).json({ message: `Error assigning task: ${err}` });
   }
 };
 
@@ -51,4 +80,11 @@ const deleteTask = async (req: Request, res: Response) => {
   }
 };
 
-export { createTask, getAllTasks, getTaskById, updateTask, deleteTask };
+export {
+  createTask,
+  assignTask,
+  getAllTasks,
+  getTaskById,
+  updateTask,
+  deleteTask,
+};

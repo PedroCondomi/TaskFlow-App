@@ -4,9 +4,10 @@ export interface ITask {
   _id: Types.ObjectId;
   title: string;
   description?: string;
-  status: "pending" | "in_progress" | "completed";
+  status: "pending" | "in progress" | "completed";
   priority: "low" | "medium" | "high";
   dueDate?: Date;
+  createdBy?: mongoose.Types.ObjectId;
   assignedTo?: mongoose.Types.ObjectId;
   team?: mongoose.Types.ObjectId;
 }
@@ -17,7 +18,7 @@ const taskSchema = new Schema<ITask>(
     description: String,
     status: {
       type: String,
-      enum: ["pending", "in_progress", "completed"],
+      enum: ["pending", "in progress", "completed"],
       default: "pending",
     },
     priority: {
@@ -26,6 +27,7 @@ const taskSchema = new Schema<ITask>(
       default: "medium",
     },
     dueDate: Date,
+    createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     assignedTo: { type: Schema.Types.ObjectId, ref: "User" },
     team: { type: Schema.Types.ObjectId, ref: "Team" },
   },
