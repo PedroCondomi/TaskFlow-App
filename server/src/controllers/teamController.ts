@@ -87,7 +87,7 @@ const deleteTeam = async (req: Request, res: Response) => {
     team.active = false;
     await team.save();
 
-    res.status(200).json({ message: `Team "${team.name}" deleted` });
+    res.status(200).json({ message: `Team ${team.name} deleted` });
   } catch (err) {
     res.status(500).json({ message: `Error deleting team: ${err}` });
   }
@@ -96,38 +96,26 @@ const deleteTeam = async (req: Request, res: Response) => {
 const addMember = async (req: Request, res: Response) => {
   try {
     const { userId } = req.body;
-    const teamId = req.params.id;
-    const requesterId = req.user._id;
+
+    const team = await Team.findOne({
+      _id: req.params.id,
+      active: true,
+    });
+    if (!team) return res.status(404).json({ message: "Team not found" });
 
     const user = await User.findOne({ _id: userId, active: true });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const updatedTeam = await Team.findOneAndUpdate(
-      {
-        _id: teamId,
-        active: true,
-        admins: requesterId, // requester must be team admin
-      },
-      {
-        $addToSet: { members: userId },
-      },
-      {
-        new: true,
-      }
-    );
+    const isMember = team.members.some(id => id.equals(userId));
+    if (isMember)
+      return res
+        .status(400)
+        .json({ message: `${user.name} is already a member` });
 
-    if (!updatedTeam) {
-      return res.status(403).json({
-        message: "Team not found or you are not an admin",
-      });
-    }
-
-    const wasAdded = updatedTeam.members.some(id => id.equals(userId));
-    if (!wasAdded) {
-      return res.status(400).json({ message: "User is already a member" });
-    }
+    team.members.push(userId);
+    team.save();
 
     return res.json({ message: `Member ${user.name} added` });
   } catch (err) {
@@ -138,38 +126,36 @@ const addMember = async (req: Request, res: Response) => {
 const removeMember = async (req: Request, res: Response) => {
   try {
     const { userId } = req.body;
-    const teamId = req.params.id;
-    const requesterId = req.user._id;
+
+    const team = await Team.findOne({
+      _id: req.params.id,
+      active: true,
+    });
+
+    if (!team) return res.status(404).json({ message: "Team not found" });
 
     const user = await User.findOne({ _id: userId, active: true });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const updatedTeam = await Team.findOneAndUpdate(
-      {
-        _id: teamId,
-        active: true,
-        admins: requesterId, // requester must be team admin
-      },
-      {
-        $pull: { members: userId },
-      },
-      {
-        new: true,
-      }
-    );
-
-    if (!updatedTeam) {
-      return res.status(403).json({
-        message: "Team not found or you are not an admin",
-      });
+    const isMember = team.members.some(id => id.equals(userId));
+    if (!isMember) {
+      return res
+        .status(400)
+        .json({ message: "User is not a member of this team" });
     }
 
-    const stillMember = updatedTeam.members.some(id => id.equals(userId));
-    if (!stillMember) {
-      return res.status(400).json({ message: "User is not a member" });
+    if (req.user._id.equals(userId)) {
+      // Prevent autodelete
+      return res
+        .status(403)
+        .json({ message: "You cannot remove yourself from the team" });
     }
+
+    team.members = team.members.filter(id => !id.equals(userId));
+    team.admins = team.admins.filter(id => !id.equals(userId));
+    await team.save();
 
     return res.json({ message: `Member ${user.name} removed` });
   } catch (err) {
@@ -180,51 +166,35 @@ const removeMember = async (req: Request, res: Response) => {
 const promoteMember = async (req: Request, res: Response) => {
   try {
     const { userId } = req.body;
-    const teamId = req.params.id;
-    const requesterId = req.user._id;
+
+    const team = await Team.findOne({
+      _id: req.params.id,
+      active: true,
+    });
+
+    if (!team) return res.status(404).json({ message: "Team not found" });
 
     const user = await User.findOne({ _id: userId, active: true });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // 2) Validar que el usuario sea miembro del team
-    const isMember = await Team.exists({
-      _id: teamId,
-      active: true,
-      members: userId,
-    });
-
+    const isMember = team.members.some(id => id.equals(userId));
     if (!isMember) {
       return res.status(400).json({
-        message: "User must be a member before becoming admin",
+        message: "User must be a member before becoming an admin",
       });
     }
 
-    const updatedTeam = await Team.findOneAndUpdate(
-      {
-        _id: teamId,
-        active: true,
-        admins: requesterId, // requester must be team admin
-      },
-      {
-        $addToSet: { admins: userId },
-      },
-      {
-        new: true,
-      }
-    );
-
-    if (!updatedTeam) {
-      return res.status(403).json({
-        message: "Team not found or you are not an admin",
+    const alreadyAdmin = team.admins.some(id => id.equals(userId));
+    if (alreadyAdmin) {
+      return res.status(400).json({
+        message: "User is already an admin",
       });
     }
 
-    const isNowAdmin = updatedTeam.admins.some(id => id.equals(userId));
-    if (!isNowAdmin) {
-      return res.status(400).json({ message: "User is already an admin" });
-    }
+    team.admins.push(userId);
+    await team.save();
 
     return res.json({ message: `Member ${user.name} promoted to admin` });
   } catch (err) {

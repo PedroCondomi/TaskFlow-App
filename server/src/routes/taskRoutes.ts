@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { verifyToken } from "../middlewares/authMiddleware.js";
-import { isTeamMember, isTeamAdmin } from "../middlewares/teamPermissions.js";
+import {
+  isTeamMember,
+  isTaskTeamAdmin,
+} from "../middlewares/teamPermissions.js";
 import {
   createTask,
   assignTask,
@@ -8,15 +11,20 @@ import {
   getTaskById,
   updateTask,
   deleteTask,
+  getMyTasks,
 } from "../controllers/taskController.js";
 
 const router = Router();
 
 router.post("/", [verifyToken, isTeamMember], createTask);
-router.put("/:id", [verifyToken, isTeamAdmin], updateTask);
-router.put("/:id/assign", [verifyToken, isTeamAdmin], assignTask);
+
+router.get("/mytasks", [verifyToken], getMyTasks);
+router.put("/:id/assign", [verifyToken, isTaskTeamAdmin], assignTask);
+
 router.get("/", [verifyToken], getAllTasks);
+
 router.get("/:id", [verifyToken], getTaskById);
-router.delete("/:id", [verifyToken, isTeamAdmin], deleteTask);
+router.put("/:id", [verifyToken, isTaskTeamAdmin], updateTask);
+router.delete("/:id", [verifyToken, isTaskTeamAdmin], deleteTask);
 
 export default router;

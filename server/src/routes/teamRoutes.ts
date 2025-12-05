@@ -25,9 +25,9 @@ router.post("/", [verifyToken, requireRole("admin")], createTeam);
 router.put("/:id", [verifyToken, requireRole("admin")], updateTeam);
 router.delete("/:id", [verifyToken, requireRole("admin")], deleteTeam);
 
-// Team admins
-router.post("/:id/members", [verifyToken, isTeamAdmin], addMember);
+// Team admins, actualizar middleware, TODO en teamPermissions
+router.put("/:id/members", [verifyToken, isTeamAdmin], addMember);
 router.delete("/:id/members", [verifyToken, isTeamAdmin], removeMember);
-router.delete("/:id/promote", [verifyToken, isTeamAdmin], promoteMember);
+router.put("/:id/promote", [verifyToken, isTeamAdmin], promoteMember);
 
 export default router;

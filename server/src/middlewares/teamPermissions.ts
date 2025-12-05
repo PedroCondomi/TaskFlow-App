@@ -8,7 +8,7 @@ const isTeamMember = async (
   next: NextFunction
 ) => {
   try {
-    const { teamId } = req.body;
+    const teamId = req.params.id;
 
     if (!teamId) return next(); // Personal task, allowed
 
@@ -27,22 +27,18 @@ const isTeamMember = async (
 
 const isTeamAdmin = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const taskId = req.params.id;
-    const task = await Task.findById(taskId);
-
-    if (!task) return res.status(404).json({ message: "Task not found" });
-
-    if (!task.team)
-      return res.status(403).json({ message: "Only admins can modify tasks" });
-
-    const team = await Team.findById(task.team);
+    const team = await Team.findOne({ _id: req.params.id, active: true });
 
     if (!team) return res.status(404).json({ message: "Team not found" });
 
-    if (!team.admins.includes(req.user._id))
+    const requesterId = req.user._id.toString();
+    const isAdmin = team.admins.some(id => id.toString() === requesterId);
+
+    if (!isAdmin) {
       return res
         .status(403)
-        .json({ message: "Only team admins can modify tasks" });
+        .json({ message: "Only team admins can perform this action" });
+    }
 
     next();
   } catch (err) {
@@ -50,4 +46,36 @@ const isTeamAdmin = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { isTeamAdmin, isTeamMember };
+const isTaskTeamAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task) return res.status(404).json({ message: "Task not found" });
+
+    if (!task.team)
+      return res
+        .status(403)
+        .json({ message: "Only team admins can modify tasks" });
+
+    const team = await Team.findById(task.team);
+    if (!team) return res.status(404).json({ message: "Team not found" });
+
+    const isAdmin = team.admins.some(id => id.equals(req.user._id));
+    if (!isAdmin) {
+      return res
+        .status(403)
+        .json({ message: "Only team admins can modify tasks" });
+    }
+
+    next();
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: `Task team-admin validation error: ${err}` });
+  }
+};
+
+export { isTeamAdmin, isTeamMember, isTaskTeamAdmin };
