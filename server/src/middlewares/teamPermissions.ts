@@ -5,7 +5,7 @@ import Task from "../models/Task.js";
 const isTeamMember = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const teamId = req.params.id;
@@ -49,21 +49,35 @@ const isTeamAdmin = async (req: Request, res: Response, next: NextFunction) => {
 const isTaskTeamAdmin = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const task = await Task.findById(req.params.id);
-    if (!task) return res.status(404).json({ message: "Task not found" });
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
 
-    if (!task.team)
-      return res
-        .status(403)
-        .json({ message: "Only team admins can modify tasks" });
+    // 🟢 TASK PERSONAL
+    if (!task.team) {
+      // owner o admin global
+      if (
+        task.createdBy.toString() !== req.user._id.toString() &&
+        req.user.role !== "admin"
+      ) {
+        return res.status(403).json({ message: "Forbidden" });
+      }
 
+      return next();
+    }
+
+    // 🟣 TASK DE TEAM
     const team = await Team.findById(task.team);
-    if (!team) return res.status(404).json({ message: "Team not found" });
+    if (!team) {
+      return res.status(404).json({ message: "Team not found" });
+    }
 
     const isAdmin = team.admins.some(id => id.equals(req.user._id));
+
     if (!isAdmin) {
       return res
         .status(403)
@@ -72,10 +86,17 @@ const isTaskTeamAdmin = async (
 
     next();
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: `Task team-admin validation error: ${err}` });
+    res.status(500).json({
+      message: `Task team-admin validation error: ${err}`,
+    });
   }
 };
 
-export { isTeamAdmin, isTeamMember, isTaskTeamAdmin };
+const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "User must be an admin" });
+  }
+  next();
+};
+
+export { isTeamAdmin, isTeamMember, isTaskTeamAdmin, isAdmin };

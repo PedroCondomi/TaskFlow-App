@@ -3,6 +3,7 @@ import { verifyToken } from "../middlewares/authMiddleware.js";
 import {
   isTeamMember,
   isTaskTeamAdmin,
+  isAdmin,
 } from "../middlewares/teamPermissions.js";
 import {
   createTask,
@@ -21,7 +22,7 @@ router.post("/", [verifyToken, isTeamMember], createTask);
 router.get("/mytasks", [verifyToken], getMyTasks);
 router.put("/:id/assign", [verifyToken, isTaskTeamAdmin], assignTask);
 
-router.get("/", [verifyToken], getAllTasks);
+router.get("/", [verifyToken, isAdmin], getAllTasks);
 
 router.get("/:id", [verifyToken], getTaskById);
 router.put("/:id", [verifyToken, isTaskTeamAdmin], updateTask);

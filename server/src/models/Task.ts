@@ -7,7 +7,7 @@ export interface ITask {
   status: "pending" | "in progress" | "completed";
   priority: "low" | "medium" | "high";
   dueDate?: Date;
-  createdBy?: mongoose.Types.ObjectId;
+  createdBy: mongoose.Types.ObjectId;
   assignedTo?: mongoose.Types.ObjectId;
   team?: mongoose.Types.ObjectId;
 }
@@ -31,7 +31,7 @@ const taskSchema = new Schema<ITask>(
     assignedTo: { type: Schema.Types.ObjectId, ref: "User" },
     team: { type: Schema.Types.ObjectId, ref: "Team" },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model<ITask>("Task", taskSchema);

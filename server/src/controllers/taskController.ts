@@ -66,6 +66,12 @@ const createTask = async (req: Request, res: Response) => {
 
 const assignTask = async (req: Request, res: Response) => {
   try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Only admins can assign tasks",
+      });
+    }
+
     const { assignedTo } = req.body;
 
     const task = await Task.findById(req.params.id);
@@ -88,7 +94,7 @@ const assignTask = async (req: Request, res: Response) => {
       }
     } else {
       // Personal tasks can't be assigned to others
-      if (!assignedTo.equals(task.createdBy)) {
+      if (!task.createdBy.equals(assignedTo)) {
         return res.status(403).json({
           message: "Personal tasks can only be assigned to the creator",
         });
@@ -106,7 +112,17 @@ const assignTask = async (req: Request, res: Response) => {
 
 const getAllTasks = async (_req: Request, res: Response) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find()
+      .populate("createdBy", "name email")
+      .populate("assignedTo", "name email")
+      .populate({
+        path: "team",
+        select: "name members",
+        populate: {
+          path: "members",
+          select: "name email role",
+        },
+      });
     res.status(200).json(tasks);
   } catch (err) {
     res.status(500).json({ message: `Error retrieving tasks: ${err}` });
@@ -133,7 +149,14 @@ const getMyTasks = async (req: Request, res: Response) => {
     })
       .populate("createdBy", "name email")
       .populate("assignedTo", "name email")
-      .populate("team", "name");
+      .populate({
+        path: "team",
+        select: "name members",
+        populate: {
+          path: "members",
+          select: "name email role",
+        },
+      });
 
     return res.json({ tasks });
   } catch (err) {
