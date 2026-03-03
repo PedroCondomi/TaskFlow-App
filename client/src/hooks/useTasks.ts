@@ -5,12 +5,20 @@ import {
   deleteTask,
   updateTask,
   assignTask,
+  getAllTasks,
 } from "../api/tasks";
 
 export function useMyTasks() {
   return useQuery({
     queryKey: ["myTasks"],
     queryFn: getMyTasks,
+  });
+}
+
+export function useAllTasks() {
+  return useQuery({
+    queryKey: ["tasks"],
+    queryFn: getAllTasks,
   });
 }
 

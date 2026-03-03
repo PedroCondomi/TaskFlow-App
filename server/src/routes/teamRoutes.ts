@@ -11,23 +11,25 @@ import {
   addMember,
   removeMember,
   promoteMember,
+  demoteAdmin,
 } from "../controllers/teamController.js";
 
 const router = Router();
 
 // Logged users
-router.get("/myteams", [verifyToken], getMyTeams);
+router.get("/myteams", verifyToken, getMyTeams);
 router.get("/:id", [verifyToken, isTeamMember], getTeamById);
 
 // Global admins
-router.get("/", [verifyToken, requireRole("admin")], getAllTeams);
+router.get("/", verifyToken, getAllTeams);
 router.post("/", [verifyToken, requireRole("admin")], createTeam);
 router.put("/:id", [verifyToken, requireRole("admin")], updateTeam);
 router.delete("/:id", [verifyToken, requireRole("admin")], deleteTeam);
 
 // Team admins, actualizar middleware, TODO en teamPermissions
 router.put("/:id/members", [verifyToken, isTeamAdmin], addMember);
-router.delete("/:id/members", [verifyToken, isTeamAdmin], removeMember);
 router.put("/:id/promote", [verifyToken, isTeamAdmin], promoteMember);
+router.put("/:id/demote", [verifyToken, isTeamAdmin], demoteAdmin);
+router.delete("/:id/members", [verifyToken, isTeamAdmin], removeMember);
 
 export default router;

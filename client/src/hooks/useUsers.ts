@@ -1,9 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { getUsers } from "../api/users";
+import { User } from "../types/user";
 
-export function useUsers() {
-  return useQuery({
+export function useUsers(options?: UseQueryOptions<User[]>) {
+  return useQuery<User[]>({
     queryKey: ["users"],
     queryFn: getUsers,
+    ...options,
   });
 }

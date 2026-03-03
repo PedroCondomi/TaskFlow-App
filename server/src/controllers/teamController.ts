@@ -23,7 +23,12 @@ const createTeam = async (req: Request, res: Response) => {
 
 const getMyTeams = async (req: Request, res: Response) => {
   try {
-    const teams = await Team.find({ active: true, members: req.user._id });
+    const teams = await Team.find({
+      active: true,
+      members: req.user._id,
+    })
+      .populate("members", "name email")
+      .populate("admins", "name email");
     res.status(200).json(teams);
   } catch (err) {
     res.status(500).json({ message: `Error retrieving teams: ${err}` });
@@ -45,7 +50,9 @@ const getTeamById = async (req: Request, res: Response) => {
       _id: req.params.id,
       active: true,
       members: req.user._id,
-    });
+    })
+      .populate("members", "name email")
+      .populate("admins", "name email");
     if (!team) return res.status(404).json({ message: "Team not found" });
     res.status(200).json(team);
   } catch (err) {
@@ -202,6 +209,38 @@ const promoteMember = async (req: Request, res: Response) => {
   }
 };
 
+const demoteAdmin = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.body;
+
+    const team = await Team.findOne({
+      _id: req.params.id,
+      active: true,
+    });
+
+    if (!team) return res.status(404).json({ message: "Team not found" });
+
+    const user = await User.findOne({ _id: userId, active: true });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isAdmin = team.admins.some(id => id.equals(userId));
+    if (!isAdmin) {
+      return res.status(400).json({
+        message: `User ${user.name} is not an admin`,
+      });
+    }
+
+    team.admins = team.admins.filter(id => !id.equals(userId));
+    await team.save();
+
+    return res.json({ message: `Admin ${user.name} demoted` });
+  } catch (err) {
+    return res.status(500).json({ message: `Error demoting admin: ${err}` });
+  }
+};
+
 export {
   createTeam,
   getMyTeams,
@@ -212,4 +251,5 @@ export {
   addMember,
   removeMember,
   promoteMember,
+  demoteAdmin,
 };

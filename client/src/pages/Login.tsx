@@ -19,6 +19,7 @@ export default function Login() {
         _id: data._id,
         name: data.name,
         email: data.email,
+        role: data.role,
       });
 
       navigate("/tasks");

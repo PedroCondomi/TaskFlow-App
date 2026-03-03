@@ -168,7 +168,17 @@ const getMyTasks = async (req: Request, res: Response) => {
 
 const getTaskById = async (req: Request, res: Response) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findById(req.params.id)
+      .populate("createdBy", "name email")
+      .populate("assignedTo", "name email")
+      .populate({
+        path: "team",
+        select: "name members",
+        populate: {
+          path: "members",
+          select: "name email role",
+        },
+      });
     if (!task) return res.status(404).json({ message: "Task not found" });
     res.status(200).json(task);
   } catch (err) {

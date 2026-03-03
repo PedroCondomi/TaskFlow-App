@@ -1,6 +1,14 @@
 import api from "./axios";
 import { Task } from "../types/task";
 
+export type CreateTaskInput = {
+  title: string;
+  description?: string;
+  team?: string;
+  priority?: "low" | "medium" | "high";
+  dueDate?: string;
+};
+
 export const getMyTasks = async (): Promise<Task[]> => {
   const res = await api.get("/tasks/mytasks");
   return res.data.tasks;
@@ -8,13 +16,7 @@ export const getMyTasks = async (): Promise<Task[]> => {
 
 export const getAllTasks = async (): Promise<Task[]> => {
   const res = await api.get("/tasks");
-  return res.data.tasks;
-};
-
-export type CreateTaskInput = {
-  title: string;
-  description?: string;
-  priority?: "low" | "medium" | "high";
+  return res.data;
 };
 
 export const createTask = async (task: CreateTaskInput) => {

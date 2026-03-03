@@ -76,6 +76,11 @@ const isTaskTeamAdmin = async (
       return res.status(404).json({ message: "Team not found" });
     }
 
+    // ✅ permitir admin global siempre
+    if (req.user.role === "admin") {
+      return next();
+    }
+
     const isAdmin = team.admins.some(id => id.equals(req.user._id));
 
     if (!isAdmin) {
@@ -92,11 +97,11 @@ const isTaskTeamAdmin = async (
   }
 };
 
-const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "User must be an admin" });
-  }
-  next();
-};
+// const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
+//   if (req.user.role !== "admin") {
+//     return res.status(403).json({ message: "User must be an admin" });
+//   }
+//   next();
+// };
 
-export { isTeamAdmin, isTeamMember, isTaskTeamAdmin, isAdmin };
+export { isTeamAdmin, isTeamMember, isTaskTeamAdmin };

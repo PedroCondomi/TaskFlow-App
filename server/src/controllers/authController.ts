@@ -53,6 +53,7 @@ const loginUser = async (req: Request, res: Response) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id.toString()),
+      role: user.role,
     });
   } catch (err) {
     res.status(500).json({ message: `Error logging in: ${err}` });
