@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
+import DashboardLayout from "./components/layouts/DashboardLayout";
 import Login from "./pages/Login";
-import Tasks from "./pages/Tasks";
+import Dashboard from "./pages/Dashboard";
 import Teams from "./pages/Teams";
 
 export default function App() {
@@ -11,22 +12,15 @@ export default function App() {
         <Route path="/" element={<Login />} />
 
         <Route
-          path="/tasks"
           element={
             <ProtectedRoute>
-              <Tasks />
+              <DashboardLayout />
             </ProtectedRoute>
           }
-        />
-
-        <Route
-          path="/teams"
-          element={
-            <ProtectedRoute>
-              <Teams />
-            </ProtectedRoute>
-          }
-        />
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/teams" element={<Teams />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

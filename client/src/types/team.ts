@@ -1,4 +1,4 @@
-import { UserPreview } from "./user";
+import { User } from "./user";
 
 export type Team = {
   _id: string;
@@ -18,5 +18,5 @@ export type TeamUser = {
 export type TeamWithMembers = {
   _id: string;
   name: string;
-  members: UserPreview[];
+  members: User[];
 };

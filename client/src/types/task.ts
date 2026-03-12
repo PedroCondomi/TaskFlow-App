@@ -1,4 +1,4 @@
-import { UserPreview } from "./user";
+import { User } from "./user";
 import { TeamWithMembers } from "./team";
 
 export type Task = {
@@ -8,7 +8,7 @@ export type Task = {
   status: "pending" | "in progress" | "completed";
   priority: "low" | "medium" | "high";
   dueDate?: string;
-  createdBy: UserPreview;
-  assignedTo?: UserPreview;
+  createdBy: User;
+  assignedTo?: User;
   team?: TeamWithMembers;
 };

@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getMyTeams,
   createTeam,
+  updateTeam,
   addMember,
   removeMember,
   promoteMember,
@@ -21,6 +22,17 @@ export function useCreateTeam() {
 
   return useMutation({
     mutationFn: createTeam,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["teams"] });
+    },
+  });
+}
+
+export function useUpdateTeam() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateTeam,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["teams"] });
     },

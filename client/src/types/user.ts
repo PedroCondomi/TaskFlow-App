@@ -4,9 +4,3 @@ export type User = {
   email: string;
   role: "user" | "admin";
 };
-
-export type UserPreview = {
-  _id: string;
-  name: string;
-  email: string;
-};

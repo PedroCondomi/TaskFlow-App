@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 const registerUser = async (req: Request, res: Response) => {
   try {
-    const { name, email, password, role = "user" } = req.body;
+    const { name, email, password, adminSecret } = req.body;
 
     if (!name || !email || !password)
       return res.status(400).json({ message: "All fields are required" });
@@ -13,6 +13,12 @@ const registerUser = async (req: Request, res: Response) => {
     const exists = await User.findOne({ email });
     if (exists)
       return res.status(400).json({ message: "Email already registered" });
+
+    let role: "admin" | "user" = "user";
+
+    if (adminSecret && adminSecret === process.env.ADMIN_SECRET) {
+      role = "admin";
+    }
 
     const hashed = await bcrypt.hash(password, 10);
 

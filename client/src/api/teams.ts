@@ -21,6 +21,20 @@ export const createTeam = async (data: CreateTeamInput): Promise<Team> => {
   return res.data;
 };
 
+export const updateTeam = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: Partial<{
+    name: string;
+    description?: string;
+  }>;
+}) => {
+  const res = await api.put(`/teams/${id}`, data);
+  return res.data;
+};
+
 export const deleteTeam = async (id: string): Promise<Team> => {
   const res = await api.delete(`/teams/${id}`);
   return res.data;

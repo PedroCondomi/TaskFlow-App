@@ -31,8 +31,10 @@ export const updateTask = async ({
   id: string;
   data: Partial<{
     title: string;
+    description?: string;
     status: "pending" | "in progress" | "completed";
     priority: "low" | "medium" | "high";
+    dueDate?: string;
   }>;
 }) => {
   const res = await api.put(`/tasks/${id}`, data);
