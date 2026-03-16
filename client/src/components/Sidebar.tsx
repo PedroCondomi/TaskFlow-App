@@ -15,7 +15,6 @@ export default function Sidebar() {
   return (
     <aside className="w-60 bg-white border-r flex flex-col p-4 gap-6">
       {/* HEADER */}
-      {/* HEADER */}
       <div className="space-y-2">
         {/* APP NAME */}
         <h2 className="text-xl font-semibold tracking-tight text-gray-900">
@@ -65,6 +64,17 @@ export default function Sidebar() {
             }`}
         >
           Teams
+        </button>
+        <button
+          onClick={() => navigate("/users")}
+          className={`flex items-center px-3 py-2 text-sm rounded-md transition
+            ${
+              location.pathname === "/users"
+                ? "bg-gray-100 font-medium"
+                : "hover:bg-gray-100"
+            }`}
+        >
+          Users
         </button>
       </nav>
 
