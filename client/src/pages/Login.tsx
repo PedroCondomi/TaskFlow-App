@@ -3,10 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../api/auth";
 import { useAuthStore } from "../store/authStore";
 import { useRegister } from "../hooks/useRegister";
+import { useLanguageStore } from "../store/languageStore";
+import { useTranslation } from "../hooks/useTranslation";
 
 export default function Login() {
   const setAuth = useAuthStore(s => s.setAuth);
+  const setLanguage = useLanguageStore(s => s.setLanguage);
+  const language = useLanguageStore(s => s.language);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const registerMutation = useRegister();
 
@@ -53,23 +58,42 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
-        <h1 className="text-2xl font-bold text-center mb-6">Task Flow</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">TaskFlow</h1>
 
         {/* LOGIN */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-4">Login</h2>
+          <div className="flex gap-2 pt-2">
+            <button
+              onClick={() => setLanguage("en")}
+              className={`text-xs px-2 py-1 rounded ${
+                language === "en" ? "bg-gray-200" : "bg-gray-100"
+              }`}
+            >
+              EN
+            </button>
+
+            <button
+              onClick={() => setLanguage("es")}
+              className={`text-xs px-2 py-1 rounded ${
+                language === "es" ? "bg-gray-200" : "bg-gray-100"
+              }`}
+            >
+              ES
+            </button>
+          </div>
+          <h2 className="text-lg font-semibold mb-4">{t("login.login")}</h2>
 
           <div className="flex flex-col gap-3">
             <input
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Email"
+              placeholder={t("login.email")}
               value={email}
               onChange={e => setEmail(e.target.value)}
             />
 
             <input
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Password"
+              placeholder={t("login.password")}
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -79,7 +103,7 @@ export default function Login() {
               onClick={submit}
               className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
             >
-              Login
+              {t("login.login")}
             </button>
 
             {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -88,19 +112,19 @@ export default function Login() {
 
         {/* REGISTER */}
         <div>
-          <h2 className="text-lg font-semibold mb-4">Register</h2>
+          <h2 className="text-lg font-semibold mb-4">{t("login.register")}</h2>
 
           <div className="flex flex-col gap-3">
             <input
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Name"
+              placeholder={t("login.name")}
               value={name}
               onChange={e => setName(e.target.value)}
             />
 
             <input
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Email"
+              placeholder={t("login.email")}
               type="email"
               value={regEmail}
               onChange={e => setRegEmail(e.target.value)}
@@ -108,7 +132,7 @@ export default function Login() {
 
             <input
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Password"
+              placeholder={t("login.password")}
               type="password"
               value={regPassword}
               onChange={e => setRegPassword(e.target.value)}
@@ -116,7 +140,7 @@ export default function Login() {
 
             <input
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Admin secret (optional)"
+              placeholder={t("login.adminsecret")}
               value={adminSecret}
               onChange={e => setAdminSecret(e.target.value)}
             />
@@ -125,7 +149,7 @@ export default function Login() {
               onClick={register}
               className="bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
             >
-              Register
+              {t("login.register")}
             </button>
           </div>
         </div>

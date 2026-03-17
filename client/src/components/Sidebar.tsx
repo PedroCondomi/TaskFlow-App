@@ -1,11 +1,17 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import { useLanguageStore } from "../store/languageStore";
+import { useTranslation } from "../hooks/useTranslation";
 
 export default function Sidebar() {
   const navigate = useNavigate();
   const logout = useAuthStore(s => s.logout);
   const user = useAuthStore(s => s.user);
   const location = useLocation();
+  const { t } = useTranslation();
+
+  const setLanguage = useLanguageStore(s => s.setLanguage);
+  const language = useLanguageStore(s => s.language);
 
   const handleLogout = () => {
     logout();
@@ -34,7 +40,7 @@ export default function Sidebar() {
             </span>
 
             <span className="text-xs text-gray-500 uppercase tracking-wide">
-              {user?.role}
+              {t(`sidebar.${user?.role}`)}
             </span>
           </div>
         </div>
@@ -51,7 +57,7 @@ export default function Sidebar() {
                 : "hover:bg-gray-100"
             }`}
         >
-          Dashboard
+          {t("sidebar.dashboard")}
         </button>
 
         <button
@@ -63,7 +69,7 @@ export default function Sidebar() {
                 : "hover:bg-gray-100"
             }`}
         >
-          Teams
+          {t("sidebar.teams")}
         </button>
         <button
           onClick={() => navigate("/users")}
@@ -74,9 +80,30 @@ export default function Sidebar() {
                 : "hover:bg-gray-100"
             }`}
         >
-          Users
+          {t("sidebar.users")}
         </button>
       </nav>
+
+      {/* Languages */}
+      <div className="flex gap-2 pt-2">
+        <button
+          onClick={() => setLanguage("en")}
+          className={`text-xs px-2 py-1 rounded ${
+            language === "en" ? "bg-gray-200" : "bg-gray-100"
+          }`}
+        >
+          EN
+        </button>
+
+        <button
+          onClick={() => setLanguage("es")}
+          className={`text-xs px-2 py-1 rounded ${
+            language === "es" ? "bg-gray-200" : "bg-gray-100"
+          }`}
+        >
+          ES
+        </button>
+      </div>
 
       {/* LOGOUT */}
       <div className="pt-4 border-t">
@@ -84,7 +111,7 @@ export default function Sidebar() {
           onClick={handleLogout}
           className="w-full px-3 py-2 text-sm bg-red-500 text-white rounded-md hover:bg-red-600 transition"
         >
-          Logout
+          {t("sidebar.logout")}
         </button>
       </div>
     </aside>

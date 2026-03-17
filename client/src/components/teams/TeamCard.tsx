@@ -10,6 +10,7 @@ import { Task } from "../../types/task";
 import { User } from "../../types/user";
 import { useState } from "react";
 import ManageMembersModal from "../modals/ManageMembersModal";
+import { useTranslation } from "../../hooks/useTranslation";
 
 type Props = {
   team: Team;
@@ -20,7 +21,7 @@ type Props = {
 
 export default function TeamCard({ team, tasks, users, openEdit }: Props) {
   const user = useAuthStore(s => s.user);
-
+  const { t } = useTranslation();
   const addMember = useAddMember();
   const promoteMember = usePromoteMember();
   const demoteAdmin = useDemoteAdmin();
@@ -51,9 +52,13 @@ export default function TeamCard({ team, tasks, users, openEdit }: Props) {
 
           {/* META */}
           <div className="flex items-center gap-3 text-xs text-gray-500">
-            <span>{team.members.length} members</span>
+            <span>
+              {team.members.length} {t(`teams.members`)}
+            </span>
 
-            <span>{teamTasks?.length ?? 0} tasks</span>
+            <span>
+              {teamTasks?.length ?? 0} {t(`teams.tasks`)}
+            </span>
           </div>
 
           {/* MEMBERS PREVIEW */}
@@ -74,14 +79,14 @@ export default function TeamCard({ team, tasks, users, openEdit }: Props) {
               onClick={() => setMembersOpen(true)}
               className="text-gray-600 hover:underline"
             >
-              Members
+              {t(`teams.members`)}
             </button>
 
             <button
               onClick={() => openEdit(team)}
               className="text-blue-600 hover:underline"
             >
-              Edit
+              {t(`teams.edit`)}
             </button>
           </div>
         )}

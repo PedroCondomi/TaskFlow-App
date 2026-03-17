@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useMyTasks } from "../hooks/useTasks";
 import { Task } from "../types/task";
+import { useTranslation } from "../hooks/useTranslation";
 import TaskModal from "../components/modals/TaskModal";
 import EditTaskModal from "../components/modals/EditTaskModal";
 import TaskCard from "../components/tasks/TaskCard";
 
 export default function Dashboard() {
   const { data: tasks, isLoading } = useMyTasks();
-
+  const { t } = useTranslation();
   const [editOpen, setEditOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
@@ -24,18 +25,18 @@ export default function Dashboard() {
     completed: tasks?.filter(t => t.status === "completed") || [],
   };
 
-  if (isLoading) return <p>Loading tasks...</p>;
+  if (isLoading) return <p>{t("tasks.loading")}</p>;
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">My Tasks</h2>
+        <h2 className="text-2xl font-bold">{t("tasks.header")}</h2>
 
         <button
           onClick={() => setOpenModal(true)}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
         >
-          New Task
+          {t("tasks.newtask")}
         </button>
       </div>
 
@@ -45,7 +46,7 @@ export default function Dashboard() {
         {/* Pending */}
         <div>
           <h3 className="text-sm font-semibold text-gray-500 mb-2">
-            Pending ({groupedTasks.pending.length})
+            {t("tasks.pending") + "s"} ({groupedTasks.pending.length})
           </h3>
 
           <ul className="space-y-2">
@@ -58,7 +59,7 @@ export default function Dashboard() {
         {/* In Progress */}
         <div>
           <h3 className="text-sm font-semibold text-gray-500 mb-2">
-            In Progress ({groupedTasks.inprogress.length})
+            {t("tasks.inprogress")} ({groupedTasks.inprogress.length})
           </h3>
 
           <ul className="space-y-2">
@@ -71,7 +72,7 @@ export default function Dashboard() {
         {/* Completed */}
         <div>
           <h3 className="text-sm font-semibold text-gray-500 mb-2">
-            Completed ({groupedTasks.completed.length})
+            {t("tasks.completed") + "s"} ({groupedTasks.completed.length})
           </h3>
 
           <ul className="space-y-2">

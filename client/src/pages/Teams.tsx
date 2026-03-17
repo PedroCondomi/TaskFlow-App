@@ -5,11 +5,13 @@ import { useAllTasks } from "../hooks/useTasks";
 import TeamModal from "../components/modals/TeamModal";
 import EditTeamModal from "../components/modals/EditTeamModal";
 import TeamCard from "../components/teams/TeamCard";
+import { useTranslation } from "../hooks/useTranslation";
 
 export default function Teams() {
   const { data: teams, isLoading } = useMyTeams();
   const { data: users } = useUsers();
   const { data: tasks } = useAllTasks();
+  const { t } = useTranslation();
 
   const [openCreateModal, setOpenCreateModal] = useState(false);
 
@@ -21,14 +23,14 @@ export default function Teams() {
     setEditOpen(true);
   };
 
-  if (isLoading) return <p>Loading teams...</p>;
+  if (isLoading) return <p>{t(`teams.loading`)}</p>;
 
   return (
     <div className="space-y-6">
       {/* HEADER */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">
-          My Teams
+          {t(`teams.header`)}
           <span className="ml-2 text-md text-gray-500">
             ({teams?.length ?? 0})
           </span>
@@ -36,9 +38,9 @@ export default function Teams() {
 
         <button
           onClick={() => setOpenCreateModal(true)}
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
         >
-          New Team
+          {t(`teams.newteam`)}
         </button>
       </div>
 

@@ -1,18 +1,20 @@
 import { useUsers } from "../hooks/useUsers";
-import UserCard from "../components/users/userCard";
+import { useTranslation } from "../hooks/useTranslation";
+import UserCard from "../components/users/UserCard";
 
 export default function Users() {
   const { data: users, isLoading } = useUsers();
+  const { t } = useTranslation();
 
-  if (isLoading) return <p>Loading users...</p>;
+  if (isLoading) return <p>{t("users.loading")}</p>;
 
   return (
     <div className="space-y-6">
       {/* HEADER */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">
-          Users
-          <span className="ml-2 text-sm text-gray-500">
+          {t("users.header")}
+          <span className="ml-2 text-md text-gray-500">
             ({users?.length ?? 0})
           </span>
         </h2>

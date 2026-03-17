@@ -1,6 +1,7 @@
 import { User } from "../../types/user";
 import { useAuthStore } from "../../store/authStore";
 import { useDeleteUser } from "../../hooks/useUsers";
+import { useTranslation } from "../../hooks/useTranslation";
 
 type Props = {
   user: User;
@@ -9,6 +10,7 @@ type Props = {
 export default function UserCard({ user }: Props) {
   const deleteUser = useDeleteUser();
   const currentUser = useAuthStore(s => s.user);
+  const { t } = useTranslation();
 
   const isAdmin = currentUser?.role === "admin";
 
@@ -27,7 +29,7 @@ export default function UserCard({ user }: Props) {
         <span className="text-xs text-gray-500">{user.email}</span>
 
         <span className="text-xs text-gray-400 uppercase tracking-wide">
-          {user.role}
+          {t(`users.${user.role}`)}
         </span>
       </div>
 
@@ -38,7 +40,7 @@ export default function UserCard({ user }: Props) {
             onClick={handleDelete}
             className="text-red-500 hover:underline"
           >
-            Delete
+            {t("users.delete")}
           </button>
         </div>
       )}

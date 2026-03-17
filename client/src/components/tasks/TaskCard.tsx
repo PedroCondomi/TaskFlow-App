@@ -1,5 +1,6 @@
 import { Task } from "../../types/task";
 import { useAuthStore } from "../../store/authStore";
+import { useTranslation } from "../../hooks/useTranslation";
 import {
   useDeleteTask,
   useUpdateTask,
@@ -14,18 +15,22 @@ type Props = {
 export default function TaskCard({ task, openEdit }: Props) {
   const user = useAuthStore(s => s.user);
 
+  const { t } = useTranslation();
   const { mutate: updateTask } = useUpdateTask();
   const { mutate: deleteTask } = useDeleteTask();
   const { mutate: assignTaskMutate } = useAssignTask();
 
-  const canEdit =
-    user?.role === "admin" || (!task.team && task.createdBy._id === user?._id);
+  const isAdmin = user?.role === "admin";
+
+  const canEdit = isAdmin || (!task.team && task.createdBy._id === user?._id);
+  const isAssignedToUser = task.assignedTo?._id === user?._id;
+  const canChangeStatus = isAdmin || isAssignedToUser;
 
   const renderStatusOptions = () => (
     <>
-      <option value="pending">Pending</option>
-      <option value="in progress">In progress</option>
-      <option value="completed">Completed</option>
+      <option value="pending">{t("tasks.pending")}</option>
+      <option value="in progress">{t("tasks.inprogress")}</option>
+      <option value="completed">{t("tasks.completed")}</option>
     </>
   );
 
@@ -52,7 +57,7 @@ export default function TaskCard({ task, openEdit }: Props) {
                   : "bg-green-100 text-green-700"
             }`}
           >
-            {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+            {t(`taskCard.${task.priority}`)}
           </span>
 
           {task.dueDate && (
@@ -72,30 +77,44 @@ export default function TaskCard({ task, openEdit }: Props) {
       {/* CENTER — Metadata */}
       <div className="flex items-center gap-3 flex-shrink-0">
         {/* Status */}
-        <select
-          value={task.status}
-          onChange={e =>
-            updateTask({
-              id: task._id,
-              data: { status: e.target.value as any },
-            })
-          }
-          className="text-xs border rounded px-2 py-1"
-        >
-          {renderStatusOptions()}
-        </select>
+        {canChangeStatus ? (
+          <select
+            value={task.status}
+            disabled={!canChangeStatus}
+            onChange={e =>
+              updateTask({
+                id: task._id,
+                data: { status: e.target.value as any },
+              })
+            }
+            className={`text-xs border rounded px-2 py-1 ${
+              !canChangeStatus
+                ? "bg-gray-100 text-gray-600 cursor-not-allowed"
+                : ""
+            }`}
+          >
+            {renderStatusOptions()}
+          </select>
+        ) : (
+          <span className="text-sm text-gray-500">
+            {t(`tasks.status`)}: {t(`tasks.${task.status}`)}
+          </span>
+        )}
 
         {/* Assigned */}
         {task.team && (
           <select
             value={task.assignedTo?._id || ""}
+            disabled={!isAdmin}
             onChange={e =>
               assignTaskMutate({
                 id: task._id,
                 assignedTo: e.target.value,
               })
             }
-            className="text-xs border rounded px-2 py-1"
+            className={`text-xs border rounded px-2 py-1 ${
+              !isAdmin ? "bg-gray-100 text-gray-600 cursor-not-allowed" : ""
+            }`}
           >
             {task.team.members.map(member => (
               <option key={member._id} value={member._id}>
@@ -113,16 +132,18 @@ export default function TaskCard({ task, openEdit }: Props) {
             onClick={() => openEdit(task)}
             className="text-blue-600 hover:underline"
           >
-            Edit
+            {t(`tasks.edit`)}
           </button>
         )}
 
-        <button
-          onClick={() => deleteTask(task._id)}
-          className="text-red-500 hover:underline"
-        >
-          Delete
-        </button>
+        {canEdit && (
+          <button
+            onClick={() => deleteTask(task._id)}
+            className="text-red-500 hover:underline"
+          >
+            {t(`tasks.delete`)}
+          </button>
+        )}
       </div>
     </li>
   );
