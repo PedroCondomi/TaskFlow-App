@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 type Props = {
   team: any;
@@ -21,6 +22,8 @@ export default function ManageMembersModal({
   addMember,
   removeMember,
 }: Props) {
+  const { t } = useTranslation();
+
   const [selectedUser, setSelectedUser] = useState("");
 
   if (!open || !team) return null;
@@ -28,7 +31,9 @@ export default function ManageMembersModal({
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
       <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg space-y-4">
-        <h3 className="text-lg font-semibold text-gray-800">Manage Members</h3>
+        <h3 className="text-lg font-semibold text-gray-800">
+          {t("memberscard.header")}
+        </h3>
 
         {/* MEMBERS LIST */}
         <div className="space-y-2">
@@ -46,7 +51,9 @@ export default function ManageMembersModal({
                   <span className="text-sm font-medium">{member.name}</span>
 
                   <span className="text-xs text-gray-500">
-                    {memberIsAdmin ? "Admin" : "Member"}
+                    {memberIsAdmin
+                      ? t("memberscard.admin")
+                      : t("memberscard.member")}
                   </span>
                 </div>
 
@@ -61,7 +68,7 @@ export default function ManageMembersModal({
                       }
                       className="text-blue-600 hover:underline"
                     >
-                      Promote
+                      {t("memberscard.promote")}
                     </button>
                   )}
 
@@ -75,7 +82,7 @@ export default function ManageMembersModal({
                       }
                       className="text-yellow-600 hover:underline"
                     >
-                      Demote
+                      {t("memberscard.demote")}
                     </button>
                   )}
 
@@ -88,7 +95,7 @@ export default function ManageMembersModal({
                     }
                     className="text-red-500 hover:underline"
                   >
-                    Remove
+                    {t("memberscard.remove")}
                   </button>
                 </div>
               </div>
@@ -103,7 +110,7 @@ export default function ManageMembersModal({
             onChange={e => setSelectedUser(e.target.value)}
             className="border border-gray-400 rounded px-3 py-2 text-sm flex-1"
           >
-            <option value="">Select user</option>
+            <option value="">{t("memberscard.selectuser")}</option>
 
             {users.map((u: any) => (
               <option key={u._id} value={u._id}>
@@ -125,7 +132,7 @@ export default function ManageMembersModal({
             }}
             className="px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
           >
-            Add
+            {t("memberscard.add")}
           </button>
         </div>
 
@@ -135,7 +142,7 @@ export default function ManageMembersModal({
             onClick={onClose}
             className="px-4 py-2 text-sm bg-gray-100 rounded hover:bg-gray-200"
           >
-            Close
+            {t("memberscard.close")}
           </button>
         </div>
       </div>
