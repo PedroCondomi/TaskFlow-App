@@ -66,7 +66,7 @@ export default function ManageMembersModal({
                           userId: member._id,
                         })
                       }
-                      className="text-blue-600 hover:underline"
+                      className="px-2 py-1 rounded-md bg-green-100 text-green-700 hover:bg-green-200 text-xs font-medium transition"
                     >
                       {t("memberscard.promote")}
                     </button>
@@ -80,7 +80,7 @@ export default function ManageMembersModal({
                           userId: member._id,
                         })
                       }
-                      className="text-yellow-600 hover:underline"
+                      className="px-2 py-1 rounded-md bg-yellow-100 text-yellow-700 hover:bg-yellow-200 text-xs font-medium transition"
                     >
                       {t("memberscard.demote")}
                     </button>
@@ -93,7 +93,7 @@ export default function ManageMembersModal({
                         userId: member._id,
                       })
                     }
-                    className="text-red-500 hover:underline"
+                    className="px-2 py-1 rounded-md bg-red-100 text-red-700 hover:bg-red-200 text-xs font-medium transition"
                   >
                     {t("memberscard.remove")}
                   </button>

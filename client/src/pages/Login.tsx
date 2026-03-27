@@ -57,30 +57,34 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="flex justify-end mb-2">{/* botones */}</div>
       <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
         <h1 className="text-2xl font-bold text-center mb-6">TaskFlow</h1>
 
         {/* LOGIN */}
         <div className="mb-8">
-          <div className="flex gap-2 pt-2">
-            <button
-              onClick={() => setLanguage("en")}
-              className={`text-xs px-2 py-1 rounded ${
-                language === "en" ? "bg-gray-200" : "bg-gray-100"
-              }`}
-            >
-              EN
-            </button>
+          <div className="flex justify-end mb-2">
+            <div className="flex gap-2">
+              <button
+                onClick={() => setLanguage("en")}
+                className={`text-xs px-2 py-1 rounded ${
+                  language === "en" ? "bg-gray-300 font-medium" : "bg-gray-100"
+                }`}
+              >
+                EN
+              </button>
 
-            <button
-              onClick={() => setLanguage("es")}
-              className={`text-xs px-2 py-1 rounded ${
-                language === "es" ? "bg-gray-200" : "bg-gray-100"
-              }`}
-            >
-              ES
-            </button>
+              <button
+                onClick={() => setLanguage("es")}
+                className={`text-xs px-2 py-1 rounded ${
+                  language === "es" ? "bg-gray-300 font-medium" : "bg-gray-100"
+                }`}
+              >
+                ES
+              </button>
+            </div>
           </div>
+
           <h2 className="text-lg font-semibold mb-4">{t("login.login")}</h2>
 
           <div className="flex flex-col gap-3">

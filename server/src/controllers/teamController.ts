@@ -232,6 +232,13 @@ const demoteAdmin = async (req: Request, res: Response) => {
       });
     }
 
+    if (req.user._id.equals(userId)) {
+      // Prevent autodelete
+      return res
+        .status(403)
+        .json({ message: "You cannot remove yourself from the team" });
+    }
+
     team.admins = team.admins.filter(id => !id.equals(userId));
     await team.save();
 

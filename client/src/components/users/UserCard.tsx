@@ -38,9 +38,9 @@ export default function UserCard({ user }: Props) {
         <div className="text-sm opacity-0 group-hover:opacity-100 transition">
           <button
             onClick={handleDelete}
-            className="text-red-500 hover:underline"
+            className="p-2 rounded-md text-gray-500 hover:text-red-600 hover:bg-red-50 transition"
           >
-            {t("users.delete")}
+            🗑️
           </button>
         </div>
       )}

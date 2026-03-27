@@ -77,16 +77,16 @@ export default function TeamCard({ team, tasks, users, openEdit }: Props) {
           <div className="flex items-center gap-3 text-sm opacity-0 group-hover:opacity-100 transition">
             <button
               onClick={() => setMembersOpen(true)}
-              className="text-gray-600 hover:underline"
+              className="p-2 rounded-md text-gray-500 hover:text-purple-600 hover:bg-purple-100 transition"
             >
-              {t(`teams.members`)}
+              👥
             </button>
 
             <button
               onClick={() => openEdit(team)}
-              className="text-blue-600 hover:underline"
+              className="p-2 rounded-md text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition"
             >
-              {t(`teams.edit`)}
+              ✏️
             </button>
           </div>
         )}

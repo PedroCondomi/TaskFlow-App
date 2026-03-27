@@ -81,48 +81,54 @@ export default function TaskCard({ task, openEdit }: Props) {
           <select
             value={task.status}
             disabled={!canChangeStatus}
+            className={`text-xs border rounded px-2 py-1`}
             onChange={e =>
               updateTask({
                 id: task._id,
                 data: { status: e.target.value as any },
               })
             }
-            className={`text-xs border rounded px-2 py-1 ${
-              !canChangeStatus
-                ? "bg-gray-100 text-gray-600 cursor-not-allowed"
-                : ""
-            }`}
           >
             {renderStatusOptions()}
           </select>
         ) : (
-          <span className="text-sm text-gray-500">
-            {t(`tasks.status`)}: {t(`tasks.${task.status}`)}
+          <span className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded flex items-center gap-1">
+            <span className="font-medium text-gray-500">
+              {t("tasks.status")}:
+            </span>
+            <span className="text-gray-700">{t(`tasks.${task.status}`)}</span>
           </span>
         )}
 
         {/* Assigned */}
-        {task.team && (
-          <select
-            value={task.assignedTo?._id || ""}
-            disabled={!isAdmin}
-            onChange={e =>
-              assignTaskMutate({
-                id: task._id,
-                assignedTo: e.target.value,
-              })
-            }
-            className={`text-xs border rounded px-2 py-1 ${
-              !isAdmin ? "bg-gray-100 text-gray-600 cursor-not-allowed" : ""
-            }`}
-          >
-            {task.team.members.map(member => (
-              <option key={member._id} value={member._id}>
-                {member.name}
-              </option>
-            ))}
-          </select>
-        )}
+        {task.team &&
+          (isAdmin ? (
+            <select
+              value={task.assignedTo?._id || ""}
+              onChange={e =>
+                assignTaskMutate({
+                  id: task._id,
+                  assignedTo: e.target.value,
+                })
+              }
+              className="text-xs border rounded px-2 py-1"
+            >
+              {task.team.members.map(member => (
+                <option key={member._id} value={member._id}>
+                  {member.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded flex items-center gap-1">
+              <span className="font-medium text-gray-500">
+                {t("tasks.assignedTo")}:
+              </span>
+              <span className="text-gray-700">
+                {task.assignedTo?.name || t("tasks.unassigned")}
+              </span>
+            </span>
+          ))}
       </div>
 
       {/* RIGHT — Actions */}
@@ -130,18 +136,18 @@ export default function TaskCard({ task, openEdit }: Props) {
         {canEdit && (
           <button
             onClick={() => openEdit(task)}
-            className="text-blue-600 hover:underline"
+            className="p-2 rounded-md text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition"
           >
-            {t(`tasks.edit`)}
+            ✏️
           </button>
         )}
 
         {canEdit && (
           <button
             onClick={() => deleteTask(task._id)}
-            className="text-red-500 hover:underline"
+            className="p-2 rounded-md text-gray-500 hover:text-red-600 hover:bg-red-50 transition"
           >
-            {t(`tasks.delete`)}
+            🗑️
           </button>
         )}
       </div>

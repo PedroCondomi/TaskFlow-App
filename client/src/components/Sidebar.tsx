@@ -89,7 +89,7 @@ export default function Sidebar() {
         <button
           onClick={() => setLanguage("en")}
           className={`text-xs px-2 py-1 rounded ${
-            language === "en" ? "bg-gray-200" : "bg-gray-100"
+            language === "en" ? "bg-gray-300 font-medium" : "bg-gray-100"
           }`}
         >
           EN
@@ -98,7 +98,7 @@ export default function Sidebar() {
         <button
           onClick={() => setLanguage("es")}
           className={`text-xs px-2 py-1 rounded ${
-            language === "es" ? "bg-gray-200" : "bg-gray-100"
+            language === "es" ? "bg-gray-300 font-medium" : "bg-gray-100"
           }`}
         >
           ES

@@ -30,7 +30,12 @@ export default function Dashboard() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">{t("tasks.header")}</h2>
+        <h2 className="text-2xl font-bold">
+          {t("tasks.header")}
+          <span className="ml-2 text-md text-gray-500">
+            ({tasks?.length ?? 0})
+          </span>
+        </h2>
 
         <button
           onClick={() => setOpenModal(true)}
@@ -72,7 +77,7 @@ export default function Dashboard() {
         {/* Completed */}
         <div>
           <h3 className="text-sm font-semibold text-gray-500 mb-2">
-            {t("tasks.completed") + "s"} ({groupedTasks.completed.length})
+            {t("tasks.completedHeader")} ({groupedTasks.completed.length})
           </h3>
 
           <ul className="space-y-2">
