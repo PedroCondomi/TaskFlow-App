@@ -155,9 +155,22 @@ npm run dev
 - Dark mode
 - More languages (i18n scalable)
 
+
 ---
 
 ## 📸 Screenshots
+
+### Login/Register interface
+<img width="1132" height="865" alt="Sin título" src="https://github.com/user-attachments/assets/88a89eea-f14c-46e5-a4d3-8f2531bfd503" />
+
+### Dashboard Layout
+<img width="1919" height="865" alt="Sin título2" src="https://github.com/user-attachments/assets/124196fc-18c4-4d0f-86f4-cad60c2bdd46" />
+
+### Task Creation / Edition
+<img width="699" height="748" alt="Sin título3" src="https://github.com/user-attachments/assets/37100432-fd70-46d7-ad60-eca468db3cdb" />
+
+### Team Management
+<img width="1916" height="859" alt="Sin título4" src="https://github.com/user-attachments/assets/2e34c4e6-a820-49c1-8bd1-704ae4048699" />
 
 ---
 
