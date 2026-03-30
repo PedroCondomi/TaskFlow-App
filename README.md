@@ -1,5 +1,8 @@
 # TaskFlow
 
+Read this in other languages:
+- 🇪🇸 Español: [README.es.md](README.es.md)
+
 TaskFlow is a fullstack task management application designed for teams and individuals.  
 It allows users to manage personal tasks, collaborate in teams, and control permissions based on roles.
 
