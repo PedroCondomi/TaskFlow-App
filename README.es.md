@@ -2,7 +2,7 @@
 
 Lee esto en otros idiomas:
 
-🇪n English: [README.md](README.md)
+- 🇪n English: [README.md](README.md)
 
 TaskFlow es una aplicación fullstack de gestión de tareas diseñada para equipos e individuos.
 Permite a los usuarios gestionar tareas personales, colaborar en equipos y controlar permisos basados en roles.
