@@ -178,7 +178,7 @@ npm run dev
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Login/Register interface
 <img width="1132" height="865" alt="Sin título" src="https://github.com/user-attachments/assets/88a89eea-f14c-46e5-a4d3-8f2531bfd503" />
