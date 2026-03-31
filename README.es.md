@@ -144,11 +144,15 @@ Ejecutar:
 ```bash
 npm run dev
 ```
+<<<<<<< HEAD
 
+=======
+>>>>>>> 207aa9e2ba29e34631053c1f8370c6dd609dba1e
 ---
 
 ## Resumen de Permisos
 
+<<<<<<< HEAD
 | Acción              | Admin | Usuario           |
 | ------------------- | ----- | ----------------- |
 | Crear tareas equipo | ✅    | ❌                |
@@ -156,6 +160,15 @@ npm run dev
 | Gestionar miembros  | ✅    | ❌                |
 | Tareas personales   | ✅    | ✅ (solo propias) |
 | Cambiar estado      | ✅    | ✅ (asignado)     |
+=======
+| Acción            | Admin | Usuario             |
+| ----------------- | ----- | ---------------- |
+| Crear tareas equipo | ✅    | ❌               |
+| Eliminar tareas | ✅    | ❌               |
+| Gestionar miembros    | ✅    | ❌               |
+| Tareas personales    | ✅    | ✅ (solo propias)    |
+| Cambiar estado     | ✅    | ✅ (asignado) |
+>>>>>>> 207aa9e2ba29e34631053c1f8370c6dd609dba1e
 
 ---
 
@@ -177,11 +190,16 @@ npm run dev
 - Dark mode
 - More languages (i18n scalable)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 207aa9e2ba29e34631053c1f8370c6dd609dba1e
 ---
 
 ## Capturas de Pantalla
 
 ### Interfaz de Login/Registro
+<<<<<<< HEAD
 
 <img width="1132" height="865" alt="Sin título" src="https://github.com/user-attachments/assets/88a89eea-f14c-46e5-a4d3-8f2531bfd503" />
 
@@ -195,6 +213,17 @@ npm run dev
 
 ### Gestión de equipos
 
+=======
+<img width="1132" height="865" alt="Sin título" src="https://github.com/user-attachments/assets/88a89eea-f14c-46e5-a4d3-8f2531bfd503" />
+
+### Diseño del Dashboard
+<img width="1919" height="865" alt="Sin título2" src="https://github.com/user-attachments/assets/124196fc-18c4-4d0f-86f4-cad60c2bdd46" />
+
+### Creación / Edición de tareas
+<img width="699" height="748" alt="Sin título3" src="https://github.com/user-attachments/assets/37100432-fd70-46d7-ad60-eca468db3cdb" />
+
+### Gestión de equipos
+>>>>>>> 207aa9e2ba29e34631053c1f8370c6dd609dba1e
 <img width="1916" height="859" alt="Sin título4" src="https://github.com/user-attachments/assets/2e34c4e6-a820-49c1-8bd1-704ae4048699" />
 
 ---
