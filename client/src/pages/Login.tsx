@@ -36,7 +36,7 @@ export default function Login() {
 
       navigate("/dashboard");
     } catch (e: any) {
-      setError("Incorrect email or password");
+      setError(t("login.loginError"));
     }
   };
 
@@ -49,9 +49,9 @@ export default function Login() {
         adminSecret,
       });
 
-      alert("User created!");
+      setError(t("login.userCreated"));
     } catch {
-      alert("Could not register");
+      setError(t("login.errorRegister"));
     }
   };
 
@@ -66,7 +66,10 @@ export default function Login() {
           <div className="flex justify-end mb-2">
             <div className="flex gap-2">
               <button
-                onClick={() => setLanguage("en")}
+                onClick={() => {
+                  setLanguage("en");
+                  setError("");
+                }}
                 className={`text-xs px-2 py-1 rounded ${
                   language === "en" ? "bg-gray-300 font-medium" : "bg-gray-100"
                 }`}
@@ -75,7 +78,10 @@ export default function Login() {
               </button>
 
               <button
-                onClick={() => setLanguage("es")}
+                onClick={() => {
+                  setLanguage("es");
+                  setError("");
+                }}
                 className={`text-xs px-2 py-1 rounded ${
                   language === "es" ? "bg-gray-300 font-medium" : "bg-gray-100"
                 }`}

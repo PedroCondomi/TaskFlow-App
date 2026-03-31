@@ -1,0 +1,12 @@
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+export const connectDB = async () => {
+    try {
+        await mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@taskflowdb.eoznh8r.mongodb.net/`);
+        console.log("MongoDB connected successfully");
+    }
+    catch (error) {
+        console.error("Error connecting to MongoDB:", error);
+    }
+};

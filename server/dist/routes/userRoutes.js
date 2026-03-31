@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { getAllUsers, getUserById, updateUser, deleteUser, getMyProfile, } from "../controllers/userController.js";
+import { verifyToken, requireRole } from "../middlewares/authMiddleware.js";
+const router = Router();
+router.get("/", verifyToken, getAllUsers);
+router.get("/me", verifyToken, getMyProfile);
+router.get("/:id", verifyToken, getUserById);
+router.put("/:id", [verifyToken, requireRole("admin")], updateUser);
+router.delete("/:id", [verifyToken, requireRole("admin")], deleteUser);
+export default router;

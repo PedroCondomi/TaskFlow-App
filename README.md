@@ -1,18 +1,22 @@
-# 🚀 TaskFlow
+# TaskFlow
+
+Read this in other languages:
+
+- 🇪🇸 Español: [README.es.md](README.es.md)
 
 TaskFlow is a fullstack task management application designed for teams and individuals.  
 It allows users to manage personal tasks, collaborate in teams, and control permissions based on roles.
 
 ---
 
-## ✨ Features
+## Features
 
-### 🔐 Authentication
+### Authentication
 
 - JWT-based login system
 - Role-based access (admin / user)
 
-### ✅ Tasks
+### Tasks
 
 - Create, edit, delete tasks
 - Personal vs Team tasks
@@ -20,32 +24,32 @@ It allows users to manage personal tasks, collaborate in teams, and control perm
 - Priority levels (Low, Medium, High)
 - Due dates
 
-### 👥 Teams
+### Teams
 
 - Create and manage teams
 - Assign tasks to teams and members
 - Add / remove members
 - Promote / demote admins
 
-### 🧑‍💼 Users (Admin only)
+### Users (Admin only)
 
 - View all users
 - Delete users
 
-### 🎯 Permissions System
+### Permissions System
 
 - Users can only manage their own personal tasks
 - Only admins can manage team tasks
 - Users can update status **only if assigned**
 
-### 🌍 Internationalization
+### Internationalization
 
 - English / Spanish toggle
 - Persistent language selection
 
 ---
 
-## 🖥️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -65,27 +69,32 @@ It allows users to manage personal tasks, collaborate in teams, and control perm
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```bash
 client/
-src/
-components/
-pages/
-hooks/
-store/
-types/
+  src/
+    api/
+    components/
+    hooks/
+    pages/
+    services/
+    store/
+    types/
 
 server/
-controllers/
-models/
-routes/
-middleware/
+  src/
+    controllers/
+    middleware/
+    models/
+    routes/
+    types/
+    utils/
 ```
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 ### 1. Clone the repository
 
@@ -104,9 +113,11 @@ npm install
 Create an `.env` file:
 
 ```bash
-PORT=5000
-MONGO_URI=your_mongodb_uri
+PORT=your_port
+MONGO_USERNAME=your_mongodb_username
+MONGO_PASS=your_mongodb_password
 JWT_SECRET=your_secret
+ADMIN_SECRET=your_admin_secret
 ```
 
 Run:
@@ -120,12 +131,23 @@ npm run dev
 ```bash
 cd client
 npm install
+```
+
+Create an `.env` file:
+
+```bash
+VITE_API_BASE=your_route
+```
+
+Run:
+
+```bash
 npm run dev
 ```
 
 ---
 
-## 🔒 Permissions Overview
+## Permissions Overview
 
 | Action            | Admin | User             |
 | ----------------- | ----- | ---------------- |
@@ -137,7 +159,7 @@ npm run dev
 
 ---
 
-## 🎨 UI Highlights
+## UI Highlights
 
 - Clean dashboard layout
 - Card-based design
@@ -147,7 +169,7 @@ npm run dev
 
 ---
 
-## 🚀 Future Improvements
+## Future Improvements
 
 - Search & filtering
 - Notifications
@@ -157,11 +179,27 @@ npm run dev
 
 ---
 
-## 📸 Screenshots
+## Screenshots
+
+### Login/Register interface
+
+<img width="1132" height="865" alt="Sin título" src="https://github.com/user-attachments/assets/88a89eea-f14c-46e5-a4d3-8f2531bfd503" />
+
+### Dashboard Layout
+
+<img width="1919" height="865" alt="Sin título2" src="https://github.com/user-attachments/assets/124196fc-18c4-4d0f-86f4-cad60c2bdd46" />
+
+### Task Creation / Edition
+
+<img width="699" height="748" alt="Sin título3" src="https://github.com/user-attachments/assets/37100432-fd70-46d7-ad60-eca468db3cdb" />
+
+### Team Management
+
+<img width="1916" height="859" alt="Sin título4" src="https://github.com/user-attachments/assets/2e34c4e6-a820-49c1-8bd1-704ae4048699" />
 
 ---
 
-## 📌 Why this project?
+## Why this project?
 
 This project demonstrates:
 
@@ -173,7 +211,7 @@ This project demonstrates:
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 ### Pedro Condomí
 
@@ -181,6 +219,6 @@ This project demonstrates:
 
 ---
 
-### ⭐ If you like this project...
+### If you like this project...
 
 Give it a star ⭐ and feel free to reach out!
