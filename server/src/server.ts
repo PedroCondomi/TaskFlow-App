@@ -12,9 +12,19 @@ const app = express();
 const PORT = Number(process.env.PORT) || 8080;
 app.use(express.json());
 
+const allowedOrigins = ["http://localhost:5173", process.env.CLIENT_URL];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   }),
 );
