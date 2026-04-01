@@ -1,16 +1,37 @@
 # TaskFlow
 
 Read this in other languages:
-<<<<<<< HEAD
-
-=======
-
-> > > > > > > 207aa9e2ba29e34631053c1f8370c6dd609dba1e
 
 - 🇪🇸 Español: [README.es.md](README.es.md)
 
 TaskFlow is a fullstack task management application designed for teams and individuals.  
 It allows users to manage personal tasks, collaborate in teams, and control permissions based on roles.
+
+---
+
+## Live Demo
+
+- Frontend: https://taskflow-app-amber.vercel.app/
+- Backend: https://taskflow-app-uhyj.onrender.com/api
+
+## Test Account (Admin role)
+
+Email: test@test.com  
+Password: 7777
+
+---
+
+## Deployment
+
+- Frontend deployed on Vercel
+- Backend deployed on Render
+- Database hosted on MongoDB Atlas
+
+This project includes real-world handling of:
+
+- CORS configuration
+- Environment variables
+- Cloud database connections
 
 ---
 
@@ -150,18 +171,6 @@ Run:
 npm run dev
 ```
 
-Create an `.env` file:
-
-```bash
-VITE_API_BASE=your_route
-```
-
-Run:
-
-```bash
-npm run dev
-```
-
 ---
 
 ## Permissions Overview
@@ -176,13 +185,13 @@ npm run dev
 
 ---
 
-## UI Highlights
+## Key Highlights
 
-- Clean dashboard layout
-- Card-based design
-- Subtle hover interactions
-- Disabled states for restricted actions
-- Consistent UX patterns
+- Role-based permission system (admin vs user)
+- Team collaboration with shared tasks
+- Clean and responsive UI
+- Real-time data fetching with React Query
+- Global state handled with Zustand
 
 ---
 
@@ -190,7 +199,6 @@ npm run dev
 
 - Search & filtering
 - Notifications
-- Drag & drop tasks (kanban)
 - Dark mode
 - More languages (i18n scalable)
 
@@ -218,13 +226,14 @@ npm run dev
 
 ## Why this project?
 
-This project demonstrates:
+This project simulates a real-world SaaS task management system and demonstrates:
 
-- Fullstack architecture
-- Clean state management
-- Role-based permissions
-- Scalable UI patterns
-- Real-world product thinking
+- Fullstack architecture (client/server separation)
+- JWT authentication & role-based authorization
+- Complex state management (React Query + Zustand)
+- REST API design
+- Deployment to production (Vercel + Render + MongoDB Atlas)
+- Handling real-world issues like CORS, env variables and remote DB access
 
 ---
 

@@ -8,7 +8,7 @@ export const translations = {
       register: "Register",
       name: "Name",
       adminsecret: "Admin secret (optional)",
-      userCreater: "User Created!",
+      userCreated: "User Created!",
       errorRegister: "Could not register",
     },
     sidebar: {
@@ -99,7 +99,7 @@ export const translations = {
       register: "Registrarse",
       name: "Nombre",
       adminsecret: "Secreto admin (opcional)",
-      userCreater: "Usuario creado!",
+      userCreated: "Usuario creado!",
       errorRegister: "Error al registrar",
     },
     sidebar: {

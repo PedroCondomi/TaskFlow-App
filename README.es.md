@@ -9,6 +9,32 @@ Permite a los usuarios gestionar tareas personales, colaborar en equipos y contr
 
 ---
 
+## Versión en vivo
+
+- Frontend: https://taskflow-app-amber.vercel.app/
+- Backend: https://taskflow-app-uhyj.onrender.com/api
+
+## Cuenta de prueba (rol de admin)
+
+Email: test@test.com  
+Password: 7777
+
+---
+
+## Despliegue
+
+- Frontend desplegado en Vercel
+- Backend desplegado en Render
+- DB alojada en MongoDB Atlas
+
+Este proyecto incluye manejo de casos reales de:
+
+- Configuración CORS
+- Variables de Entorno
+- Conexiones a bases de datos en la nube
+
+---
+
 ## Funcionalidades
 
 ### Autenticación
@@ -145,12 +171,6 @@ Ejecutar:
 npm run dev
 ```
 
-<<<<<<< HEAD
-
-=======
-
-> > > > > > > 207aa9e2ba29e34631053c1f8370c6dd609dba1e
-
 ---
 
 ## Resumen de Permisos
@@ -165,23 +185,22 @@ npm run dev
 
 ---
 
-## Detalles de UI
+## Detalles a destacar
 
-- Dashboard limpio
-- Diseño basado en tarjetas
-- Interacciones hover sutiles
-- Estados deshabilitados para acciones restringidas
-- Patrones de UX consistentes
+- Sistema de permisos basado en roles (admin vs usuario)
+- Colaboración de equipos con tareas compartidas
+- Interfaz limpia y responsive
+- Consulta de datos en tiempo real con React Query
+- Manejo de estados globales con Zustand
 
 ---
 
 ## Mejoras Futuras
 
-- Search & filtering
-- Notifications
-- Drag & drop tasks (kanban)
-- Dark mode
-- More languages (i18n scalable)
+- Búsqueda y filtros
+- Notificaciones
+- Modo Oscuro
+- Más idiomas (i18n escalable)
 
 ---
 
@@ -207,13 +226,14 @@ npm run dev
 
 ## ¿Por qué este proyecto?
 
-Este proyecto demuestra:
+Este proyecto simula un sistema de gestión de tareas tipo SaaS del mundo real y demuestra:
 
-- Arquitectura fullstack
-- Gestión de estado limpia
-- Permisos basados en roles
-- Patrones de UI escalables
-- Enfoque en producto real
+- Arquitectura fullstack (separación cliente/servidor)
+- Autenticación con JWT y autorización basada en roles
+- Gestión de estado compleja (React Query + Zustand)
+- Diseño de API REST
+- Despliegue en producción (Vercel + Render + MongoDB Atlas)
+- Manejo de problemas reales como CORS, variables de entorno y acceso a bases de datos remotas
 
 ---
 
@@ -225,6 +245,6 @@ Este proyecto demuestra:
 
 ---
 
-### Apoyo al Proyecto
+### Apoyar el proyecto
 
 Si este proyecto resulta de interés, se agradece considerarlo con una estrella ⭐ en el repositorio y no dudes en establecer contacto.
