@@ -96,7 +96,9 @@ export default function TaskCard({ task, openEdit }: Props) {
             <span className="font-medium text-gray-500">
               {t("tasks.status")}:
             </span>
-            <span className="text-gray-700">task.status</span>
+            <span className="text-gray-700">
+              {t(`tasks.${task.status.replace(/\s+/g, "")}`)}
+            </span>
           </span>
         )}
 
